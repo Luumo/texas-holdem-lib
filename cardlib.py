@@ -1,9 +1,10 @@
 from enum import Enum
+class Deck:
+    def __init__(self,):
+        self.cards = []
+        self.shuffled_cards = []
 
-# h = Hand()
-# h.add_card(c)
-#
-
+    def
 
 class Hand:
     def __init__(self):
@@ -12,6 +13,11 @@ class Hand:
     def add_card(self, card):
         self.cards.append(card)
 
+    def drop_card(self):
+        self.cards.pop()
+
+    def sort_cards(self), card:
+        sort.cards()
 
 
 
