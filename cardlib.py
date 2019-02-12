@@ -1,18 +1,19 @@
+from enum import Enum
+
+# h = Hand()
+# h.add_card(c)
+#
 
 
-def NumberedCard(value: int, suit: Suit):
+class Hand:
+    def __init__(self):
+        self.cards = []
+
+    def add_card(self, card):
+        self.cards.append(card)
 
 
 
-def JackCard(suit: Suit):
 
 
 
-def QueenCard(suit: Suit):
-
-
-def KingCard(suit: Suit):
-
-
-
-def AceCard(suit: Suit):
