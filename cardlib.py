@@ -1,19 +1,17 @@
 from enum import Enum
-
-# 52 cards consists of:
-# Spade x 13
-# Heart x 13
-# Diamond x 13
-# Club x 13
+import random
 
 
 class Suit(Enum):
     # enumerates all 4 suits
 
-    spade = 1
-    heart = 2
-    diamond = 3
+    spades = 1
+    hearts = 2
+    diamonds = 3
     clubs = 4
+
+    def __str__(self):
+        return self.name
 
 
 class CardValue(Enum):
@@ -33,6 +31,11 @@ class CardValue(Enum):
     queen = 12
     king = 13
 
+    def __str__(self):
+        if 1 < self.value <= 10:
+            return str(self.value)
+        return self.name
+
 
 class Card:
     def __init__(self, value, suit):
@@ -40,21 +43,25 @@ class Card:
         self.suit = suit
 
     def __str__(self):
-        return "Card is {} of {}".format(self.value, self.suit)
+        return "{} of {}".format(self.value, self.suit)
 
 
 class Deck:
     def __init__(self):
         self.cards = []
-        for suit in Suit.__members__.values():
-            # for card_value in CardValue.__members__.items():
-            #     card = Card(card_value, suit.value)
-            #     self.cards.append(card)
-            self.cards.append(suit)
+        for suit in Suit:
+            for card_value in CardValue:
+                self.cards.append(Card(card_value, suit))
 
-    def __str__(self):
-        return "{}".format(self.cards)
+    def print_deck(self):
+        for card in self.cards:
+            print(card)
+
+    def shuffle_cards(self):            # Fråga micke, bör detta lagras i en ny lista?
+        random.shuffle(self.cards)
 
 
 d = Deck()
-print(d)
+d.shuffle_cards()
+d.print_deck()
+
