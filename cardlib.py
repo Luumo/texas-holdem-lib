@@ -47,6 +47,9 @@ class Deck:
     def __init__(self):
         self.cards = []
         for suit in Suit.__members__.values():
+            # for card_value in CardValue.__members__.items():
+            #     card = Card(card_value, suit.value)
+            #     self.cards.append(card)
             self.cards.append(suit)
 
     def __str__(self):
