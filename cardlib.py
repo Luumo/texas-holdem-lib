@@ -57,11 +57,16 @@ class Deck:
         for card in self.cards:
             print(card)
 
-    def shuffle_cards(self):            # Fråga micke, bör detta lagras i en ny lista?
+    def shuffle_deck(self):            # Fråga micke, bör detta lagras i en ny lista?
         random.shuffle(self.cards)
+
+    def remove_top_card(self):
+        self.cards.pop()                # ej klar
+
+
 
 
 d = Deck()
-d.shuffle_cards()
+d.shuffle_deck()
 d.print_deck()
 
