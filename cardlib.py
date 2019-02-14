@@ -47,26 +47,43 @@ class Card:
 
 
 class Deck:
+    # init 52 card deck
     def __init__(self):
         self.cards = []
         for suit in Suit:
             for card_value in CardValue:
                 self.cards.append(Card(card_value, suit))
 
+    def __str__(self):
+        return "{}".format(self.cards)
+
     def print_deck(self):
         for card in self.cards:
             print(card)
 
-    def shuffle_deck(self):            # Fråga micke, bör detta lagras i en ny lista?
+    def shuffle_deck(self):
         random.shuffle(self.cards)
 
-    def remove_top_card(self):
-        self.cards.pop()                # ej klar
+    def pop_card(self):
+        popped_card = self.cards.pop()
+        return popped_card
 
 
+class Hand:
+    def __init__(self):
+        self.cards = []
+
+    def add_card(self, card):
+        self.cards.append(card)
+
+    def __str__(self):
+        return "{}".format(self.cards)
 
 
 d = Deck()
-d.shuffle_deck()
 d.print_deck()
 
+h = Hand()
+h.add_card(d.pop_card())
+d.print_deck()
+print(h)
