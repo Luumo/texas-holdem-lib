@@ -5,20 +5,25 @@ from abc import *
 
 class Suit(Enum):
     # enumerates all 4 suits
-
     spades = 1
     hearts = 2
     diamonds = 3
     clubs = 4
 
+    def get_unicode(self):
+        return 'sdfsdf'
 
-class PlayingCard:
+
+class PlayingCard(metaclass=ABCMeta):
     def __init__(self, suit):
         self.suit = suit
 
     @abstractmethod
     def get_value(self):
         pass
+
+    def __lt__(self, other):
+        return True
 
 
 class NumberedCard(PlayingCard):
@@ -32,9 +37,6 @@ class NumberedCard(PlayingCard):
 
 
 class JackCard(PlayingCard):
-    def __init__(self, suit):
-        super().__init__(suit)
-
     def get_value(self):
         return 11
 
@@ -63,32 +65,41 @@ class AceCard(PlayingCard):
         return 14
 
 
-class Deck:
+class StandardDeck:
     # init 52 card deck
-    def __init__(self, numbered, jack, queen, king, ace):
-
+    def __init__(self):
+        self.deck = []
+        # Create Numbered cards
+        for suit in Suit:
+            for value in range(2, 11):
+                self.deck.append(NumberedCard(value, suit))
+            # Create jack cards
+            self.deck.append(JackCard(suit))
+            # create queen cards
+            self.deck.append(QueenCard(suit))
+            # create king cards
+            self.deck.append(KingCard(suit))
+            # create ace cards
+            self.deck.append(AceCard(suit))
 
     def __str__(self):
-        return "{}".format(self.cards)
+        return 'Deck(' + ', '.join([str(c) for c in self.deck]) + ')'
 
     def print_deck(self):
-        for card in self.cards:
-            print(card)
+        for card in self.deck:
+            print(card.get_value(), card.suit.name)
 
     def shuffle_deck(self):
-        random.shuffle(self.cards)
+        random.shuffle(self.deck)
 
     def pop_card(self):
-        popped_card = self.cards.pop()
+        popped_card = self.deck.pop()
         return popped_card
 
 
 class Hand:
     def __init__(self):
         self.cards = []
-
-    def __str__(self):
-        return "{}".format(self.cards)
 
     def add_card(self, card):
         self.cards.append(card)
@@ -98,9 +109,14 @@ class Hand:
             print(card)
 
 
-d = Deck(NumberedCard, JackCard, QueenCard, KingCard, AceCard)
-# n = NumberedCard
-J = JackCard(Suit.spades)
-N = NumberedCard(4, Suit.spades)
-print(N.get_value())
+d = StandardDeck()
+print(d)
+d.shuffle_deck()
+# d.print_deck()
+
+h = Hand()
+h.add_card(d.pop_card())
+print('\n')
+h.print_hand()
+
 
