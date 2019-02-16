@@ -11,7 +11,8 @@ class Suit(Enum):
     clubs = 4
 
     def get_unicode(self):
-        return 'sdfsdf'
+        if self.spades:
+            return u"\u2660"
 
 
 class PlayingCard(metaclass=ABCMeta):
@@ -35,10 +36,16 @@ class NumberedCard(PlayingCard):
     def get_value(self):
         return self.value
 
+    def get_suit(self):
+        return self.suit
+
 
 class JackCard(PlayingCard):
     def get_value(self):
         return 11
+
+    def get_suit(self):
+        return self.suit
 
 
 class QueenCard(PlayingCard):
@@ -48,6 +55,9 @@ class QueenCard(PlayingCard):
     def get_value(self):
         return 12
 
+    def get_suit(self):
+        return self.suit
+
 
 class KingCard(PlayingCard):
     def __init__(self, suit):
@@ -56,6 +66,8 @@ class KingCard(PlayingCard):
     def get_value(self):
         return 13
 
+    def get_suit(self):
+        return self.suit
 
 class AceCard(PlayingCard):
     def __init__(self, suit):
@@ -63,6 +75,9 @@ class AceCard(PlayingCard):
 
     def get_value(self):
         return 14
+
+    def get_suit(self):
+        return self.suit
 
 
 class StandardDeck:
@@ -83,7 +98,11 @@ class StandardDeck:
             self.deck.append(AceCard(suit))
 
     def __str__(self):
-        return 'Deck(' + ', '.join([str(c) for c in self.deck]) + ')'
+        s = "Deck("
+        for c in self.deck:
+            s += ', '.join([str(c.get_value()), str(c.get_suit())]) + ')\n'
+        return s
+        # return 'Deck(' + ', '.join([str(c.get_suit()) for c in self.deck]) + ')'
 
     def print_deck(self):
         for card in self.deck:
@@ -111,12 +130,13 @@ class Hand:
 
 d = StandardDeck()
 print(d)
+# d.print_deck()
 d.shuffle_deck()
 # d.print_deck()
 
-h = Hand()
-h.add_card(d.pop_card())
-print('\n')
-h.print_hand()
+# h = Hand()
+# h.add_card(d.pop_card())
+# print('\n')
+# h.print_hand()
 
 
