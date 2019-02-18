@@ -30,17 +30,10 @@ class PlayingCard(metaclass=ABCMeta):
         pass
 
     def __lt__(self, other):
-        first_card = (self.get_value(), self.suit)
-        second_card = (other.get_value(), other.suit)
+        return (self.get_value(), self.suit) < (other.get_value(), other.suit)
 
-        if first_card < second_card:
-            return True
-        elif first_card > second_card:
-            return False
-
-    def __eq__(self, other): # Skulle kunna lägga denna i __lt__
-        if (self.get_value(), self.suit) == (other.get_value(), other.suit):
-            return True
+    def __eq__(self, other):
+        return (self.get_value(), self.suit) == (other.get_value(), other.suit)
 
 
 class NumberedCard(PlayingCard):
@@ -55,6 +48,9 @@ class NumberedCard(PlayingCard):
     def get_suit(self):
         return self.suit
 
+    def __str__(self):
+        return '{}'.format(self.value) + self.suit.get_unicode()
+
 
 class JackCard(PlayingCard):
     def get_value(self):
@@ -62,6 +58,9 @@ class JackCard(PlayingCard):
 
     def get_suit(self):
         return self.suit
+
+    def __str__(self):
+        return 'J' + self.suit.get_unicode()
 
 
 class QueenCard(PlayingCard):
@@ -74,6 +73,9 @@ class QueenCard(PlayingCard):
     def get_suit(self):
         return self.suit
 
+    def __str__(self):
+        return 'Q' + self.suit.get_unicode()
+
 
 class KingCard(PlayingCard):
     def __init__(self, suit):
@@ -85,6 +87,9 @@ class KingCard(PlayingCard):
     def get_suit(self):
         return self.suit
 
+    def __str__(self):
+        return 'K' + self.suit.get_unicode()
+
 
 class AceCard(PlayingCard):
     def __init__(self, suit):
@@ -95,6 +100,9 @@ class AceCard(PlayingCard):
 
     def get_suit(self):
         return self.suit
+
+    def __str__(self):
+        return 'A' + self.suit.get_unicode()
 
 
 class StandardDeck:
@@ -115,15 +123,7 @@ class StandardDeck:
             self.deck.append(AceCard(suit))
 
     def __str__(self):
-        s = "Deck: \n"
-        for c in self.deck:
-            s += '(' + ''.join([str(c.get_value()), str(Suit.get_unicode(c.get_suit()))]) + ')\n'
-        return s
-        # return 'Deck(' + ', '.join([str(c.get_suit()) for c in self.deck]) + ')'
-
-    def print_deck(self):
-        for card in self.deck:
-            print(card.get_value(), card.suit.name)
+        return 'Deck:\n' + '(' + ', '.join([str(c) for c in self.deck]) + ')'
 
     def shuffle_deck(self):
         random.shuffle(self.deck)
@@ -146,20 +146,23 @@ class Hand:
         self.cards.sort()
 
     def __str__(self):
-        for card in self.cards:
-            return str((card.get_value(), (Suit.get_unicode(card.get_suit()))))
+        return 'Hand:' + '(' + ', '.join([str(c) for c in self.cards]) + ')'
 
 
 d = StandardDeck()
 print(d)
-# d.shuffle_deck()
+d.shuffle_deck()
 
 h = Hand()
 h.add_card(d.pop_card())
 h.add_card(d.pop_card())
 print(d)
-print('\n')
+# print('\n')
+h.sort_cards()
 print(h)
 
-# c = PlayingCard.__eq__(JackCard(Suit.spades), JackCard(Suit.spades))
-# print(c)
+cmp = QueenCard(Suit.spades) > JackCard(Suit.spades)
+print(cmp)
+
+jack = JackCard(Suit.spades)
+print(jack)
