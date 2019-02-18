@@ -1,5 +1,5 @@
 from enum import Enum
-import random, math
+import random
 from abc import *
 
 
@@ -154,20 +154,28 @@ class Hand:
 # ---- DECK -----
 d = StandardDeck()
 print(d)
-# d.shuffle_deck()
+d.shuffle_deck()
 
 # ---- HAND ----
 h = Hand()
-h.add_card(d.pop_card())
-h.add_card(d.pop_card())
+# h.add_card(d.pop_card())
+# h.add_card(d.pop_card())
+h.add_card(QueenCard(Suit.clubs))
+h.add_card(JackCard(Suit.clubs))
+h.add_card(NumberedCard(5, Suit.clubs))
+h.add_card(NumberedCard(6, Suit.clubs))
+h.add_card(NumberedCard(6, Suit.clubs))
 print(d)
 # print('\n')
 h.sort_cards()
 print(h)
 
 # ---- CMP ----
+
 cmp = QueenCard(Suit.clubs) < QueenCard(Suit.spades)
 print(cmp)
 
 jack = JackCard(Suit.spades)
 print(jack)
+
+
