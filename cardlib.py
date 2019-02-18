@@ -30,7 +30,7 @@ class PlayingCard(metaclass=ABCMeta):
         pass
 
     def __lt__(self, other):
-        return (self.get_value(), self.suit) < (other.get_value(), other.suit)
+        return self.get_value() < other.get_value()
 
     def __eq__(self, other):
         return (self.get_value(), self.suit) == (other.get_value(), other.suit)
@@ -123,20 +123,20 @@ class StandardDeck:
             self.deck.append(AceCard(suit))
 
     def __str__(self):
-        return 'Deck:\n' + '(' + ', '.join([str(c) for c in self.deck]) + ')'
+        return 'Deck: ' + '(' + ', '.join([str(c) for c in self.deck]) + ')'
 
     def shuffle_deck(self):
         random.shuffle(self.deck)
 
     def pop_card(self):
-        return self.deck.pop(-1)
+        return self.deck.pop()
 
 
 class Hand:
     def __init__(self):
         self.cards = []
 
-    def add_card(self, card):   # __add__ or __addcard__ ?
+    def add_card(self, card):
         self.cards.append(card)
 
     def drop_cards(self):
@@ -149,10 +149,14 @@ class Hand:
         return 'Hand:' + '(' + ', '.join([str(c) for c in self.cards]) + ')'
 
 
+# ------------ RANDOM CODE ------------------
+
+# ---- DECK -----
 d = StandardDeck()
 print(d)
-d.shuffle_deck()
+# d.shuffle_deck()
 
+# ---- HAND ----
 h = Hand()
 h.add_card(d.pop_card())
 h.add_card(d.pop_card())
@@ -161,7 +165,8 @@ print(d)
 h.sort_cards()
 print(h)
 
-cmp = QueenCard(Suit.spades) > JackCard(Suit.spades)
+# ---- CMP ----
+cmp = QueenCard(Suit.clubs) < QueenCard(Suit.spades)
 print(cmp)
 
 jack = JackCard(Suit.spades)
