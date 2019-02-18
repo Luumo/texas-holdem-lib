@@ -1,5 +1,5 @@
 from enum import Enum
-import random
+import random, math
 from abc import *
 
 
@@ -11,8 +11,14 @@ class Suit(Enum):
     clubs = 4
 
     def get_unicode(self):
-        if self.spades:
-            return u"\u2660"
+        if self == Suit.spades:
+            return u"\u2660"    # Spades unicode
+        elif self == Suit.hearts:
+            return u"\u2665"    # Hearts unicode
+        elif self == Suit.diamonds:
+            return u"\u2666"    # Diamonds unicode
+        else:
+            return u"\u2663"    # Clubs unicode
 
 
 class PlayingCard(metaclass=ABCMeta):
@@ -24,7 +30,17 @@ class PlayingCard(metaclass=ABCMeta):
         pass
 
     def __lt__(self, other):
-        return True
+        first_card = (self.get_value(), self.suit)
+        second_card = (other.get_value(), other.suit)
+
+        if first_card < second_card:
+            return True
+        elif first_card > second_card:
+            return False
+
+    def __eq__(self, other): # Skulle kunna lägga denna i __lt__
+        if (self.get_value(), self.suit) == (other.get_value(), other.suit):
+            return True
 
 
 class NumberedCard(PlayingCard):
@@ -69,6 +85,7 @@ class KingCard(PlayingCard):
     def get_suit(self):
         return self.suit
 
+
 class AceCard(PlayingCard):
     def __init__(self, suit):
         super().__init__(suit)
@@ -98,9 +115,9 @@ class StandardDeck:
             self.deck.append(AceCard(suit))
 
     def __str__(self):
-        s = "Deck("
+        s = "Deck: \n"
         for c in self.deck:
-            s += ', '.join([str(c.get_value()), str(c.get_suit())]) + ')\n'
+            s += '(' + ''.join([str(c.get_value()), str(Suit.get_unicode(c.get_suit()))]) + ')\n'
         return s
         # return 'Deck(' + ', '.join([str(c.get_suit()) for c in self.deck]) + ')'
 
@@ -112,31 +129,37 @@ class StandardDeck:
         random.shuffle(self.deck)
 
     def pop_card(self):
-        popped_card = self.deck.pop()
-        return popped_card
+        return self.deck.pop(-1)
 
 
 class Hand:
     def __init__(self):
         self.cards = []
 
-    def add_card(self, card):
+    def add_card(self, card):   # __add__ or __addcard__ ?
         self.cards.append(card)
 
-    def print_hand(self):
+    def drop_cards(self):
+        self.cards.clear()
+
+    def sort_cards(self):
+        self.cards.sort()
+
+    def __str__(self):
         for card in self.cards:
-            print(card)
+            return str((card.get_value(), (Suit.get_unicode(card.get_suit()))))
 
 
 d = StandardDeck()
 print(d)
-# d.print_deck()
-d.shuffle_deck()
-# d.print_deck()
+# d.shuffle_deck()
 
-# h = Hand()
-# h.add_card(d.pop_card())
-# print('\n')
-# h.print_hand()
+h = Hand()
+h.add_card(d.pop_card())
+h.add_card(d.pop_card())
+print(d)
+print('\n')
+print(h)
 
-
+# c = PlayingCard.__eq__(JackCard(Suit.spades), JackCard(Suit.spades))
+# print(c)
