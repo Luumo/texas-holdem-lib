@@ -6,6 +6,7 @@ class PokerHand:
         self.cards = cards
 
     def high_card(self):
+        # returns the highest valued card
         vals = []
         for c in self.cards:
             vals.append(c.get_value())
@@ -15,22 +16,45 @@ class PokerHand:
     def one_pair(self):
         value_count = Counter()
         # finds the card ranks which are in one pair
+        # only returns pairs if 1 pair. else none
         for c in self.cards:
             value_count[c.get_value()] += 1
         pairs = [v[0] for v in value_count.items() if v[1] == 2]
-        return pairs
+        if len(pairs) == 1:
+            return pairs
 
     def two_pair(self):
         value_count = Counter()
         for c in self.cards:
             value_count[c.get_value()] += 1
-        pairs = [v[0] for v in value_count.items() if v[1] >= 2]
-        return pairs
+        pairs = [v[0] for v in value_count.items() if v[1] == 2]
+        if len(pairs) == 2:
+            return pairs
 
     def three_of_a_kind(self):
-        pass
+        value_count = Counter()
+        for c in self.cards:
+            value_count[c.get_value()] +=1
+            threes = [v[0] for v in value_count.items() if v[1] == 3]
+        if len(threes) == 1:
+            return threes
+
     def straight(self):
-        pass
+        vals = []
+        for c in self.cards:
+            vals.append(c.get_value())
+        vals.sort()
+
+        for val in reversed(vals):
+            # jmf val[i] med val[i+1] och kolla om det diffar med mer än 1
+            print(vals)
+            if vals[val] - vals[val+1] d:
+                return vals
+            else:
+                return None
+
+
+
     def flush(self):
         pass
 
