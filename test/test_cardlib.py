@@ -61,6 +61,17 @@ def test_three_of_a_kind():
     print('Three of a kind: {} '.format(a))
 
 
+def test_straight_flush():
+    he = Hand()
+    he.add_card(NumberedCard(9, Suit.clubs))
+    he.add_card(NumberedCard(8, Suit.clubs))
+    he.add_card(NumberedCard(7, Suit.clubs))
+    he.add_card(NumberedCard(6, Suit.clubs))
+    he.add_card(NumberedCard(5, Suit.clubs))
+    a = PokerHand.straight_flush(he)
+    print('Straight Flush: {} '.format(a))
+
+
 def test_flush():
     he = Hand()
     he.add_card(NumberedCard(9, Suit.clubs))
@@ -68,7 +79,16 @@ def test_flush():
     he.add_card(NumberedCard(7, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(5, Suit.clubs))
-    a = PokerHand.straight(he)
+    a = PokerHand.flush(he)
     print('Flush: {} '.format(a))
 
+def test_four_of_a_kind():
+    he = Hand()
+    he.add_card(NumberedCard(14, Suit.hearts))
+    he.add_card(NumberedCard(14, Suit.clubs))
+    he.add_card(NumberedCard(14, Suit.diamonds))
+    he.add_card(NumberedCard(14, Suit.spades))
+    he.add_card(NumberedCard(5, Suit.clubs))
+    a = PokerHand.four_of_a_kind(he)
+    print('Four of a kind: {} '.format(a))
 

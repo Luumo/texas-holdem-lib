@@ -5,6 +5,10 @@ class PokerHand:
     def __init__(self, cards):
         self.cards = cards
 
+    def __lt__(self, other):
+        pass
+
+
     def high_card(self):
         # returns the highest valued card
         vals = []
@@ -34,29 +38,35 @@ class PokerHand:
     def three_of_a_kind(self):
         value_count = Counter()
         for c in self.cards:
-            value_count[c.get_value()] +=1
-            threes = [v[0] for v in value_count.items() if v[1] == 3]
+            value_count[c.get_value()] += 1
+        threes = [v[0] for v in value_count.items() if v[1] == 3]
         if len(threes) == 1:
             return threes
 
     def straight(self):
-        vals = []
-        for c in self.cards:
-            vals.append(c.get_value())
-        vals.sort()
-
-        for val in reversed(vals):
-            # jmf val[i] med val[i+1] och kolla om det diffar med mer än 1
-            print(vals)
-            if vals[val] - vals[val+1] d:
-                return vals
-            else:
-                return None
-
-
+        vals = [c.get_value() for c in self.cards] \
+            + [(1, c.suit) for c in self.cards if c.get_value() == 14]  # Add the aces!
+        for c in reversed(self.cards):    # Starting point (high card)
+            # Check if we have the value - k in the set of cards:
+            found_straight = True
+            for k in range(1, 5):
+                if (c.get_value() - k) not in vals:
+                    found_straight = False
+                    break
+            if found_straight:
+                return c.get_value()
 
     def flush(self):
-        pass
+        # Doesn't care about value, so it might be a straight flush
+        # However, in the comparison of best_pokerhand(),
+        # the straight_flush will be compared before flush
+        suits = []
+        for c in self.cards:
+            suits.append(c.suit)
+        # Only suits matter in flush, checks if all suits are the same
+        if all(s == suits[0] for s in suits):
+            return suits[0].get_unicode()
+
 
     def full_house(self):
         """
@@ -82,7 +92,12 @@ class PokerHand:
                     return three, two
 
     def four_of_a_kind(self):
-        pass
+        value_count = Counter()
+        for c in self.cards:
+            value_count[c.get_value()] += 1
+        fours = [v[0] for v in value_count.items() if v[1] == 4]
+        if len(fours) == 1:
+            return fours
 
     def straight_flush(self):
         """
@@ -93,7 +108,7 @@ class PokerHand:
         """
         vals = [(c.get_value(), c.suit) for c in self.cards] \
             + [(1, c.suit) for c in self.cards if c.get_value() == 14]  # Add the aces!
-        for c in reversed(self.cards): # Starting point (high card)
+        for c in reversed(self.cards):    # Starting point (high card)
             # Check if we have the value - k in the set of cards:
             found_straight = True
             for k in range(1, 5):
@@ -101,4 +116,38 @@ class PokerHand:
                     found_straight = False
                     break
             if found_straight:
-                return c.give_value()
+                return c.get_value()
+
+    def hand_ranks(self):
+        if self.straight_flush():
+            return 9
+        if self.four_of_a_kind():
+            return 8
+        if self.full_house():
+            return 7
+        if self.flush():
+            return 6
+        if self.straight():
+            return 5
+        if self.three_of_a_kind():
+            return 4
+        if self.two_pair():
+            return 3
+        if self.one_pair():
+            return 2
+        if self.high_card():
+            return 1
+
+
+# -------Poker Hand Ranks -------- #
+    # Straight Flush    9
+    # Four of a kind    8
+    # Full House        7
+    # Flush             6
+    # Straight          5
+    # Three of a kind   4
+    # Two pair          3
+    # Pair              2
+    # High card         1
+
+
