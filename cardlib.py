@@ -136,6 +136,16 @@ class Hand:
     def __init__(self):
         self.cards = []
 
+    def __str__(self):
+        return 'Hand:' + '(' + ', '.join([str(c) for c in self.cards]) + ')'
+
+    def best_poker_hand(self, cards):
+        hand = []
+
+        hand.append(self.cards)
+        hand.append(cards)
+        #print('{} other {}'.format(self, ([c.get_value(), c.suit] for c in cards)))
+
     def add_card(self, card):
         self.cards.append(card)
 
@@ -144,9 +154,6 @@ class Hand:
 
     def sort_cards(self):
         self.cards.sort()
-
-    def __str__(self):
-        return 'Hand:' + '(' + ', '.join([str(c) for c in self.cards]) + ')'
 
 
 # ------------ RANDOM CODE ------------------

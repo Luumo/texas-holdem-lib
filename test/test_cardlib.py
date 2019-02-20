@@ -82,6 +82,7 @@ def test_flush():
     a = PokerHand.flush(he)
     print('Flush: {} '.format(a))
 
+
 def test_four_of_a_kind():
     he = Hand()
     he.add_card(NumberedCard(14, Suit.hearts))
@@ -90,5 +91,17 @@ def test_four_of_a_kind():
     he.add_card(NumberedCard(14, Suit.spades))
     he.add_card(NumberedCard(5, Suit.clubs))
     a = PokerHand.four_of_a_kind(he)
-    print('Four of a kind: {} '.format(a))
+
+
+def test_poker_hand():
+    he = Hand()
+    he.add_card(NumberedCard(14, Suit.hearts))
+    he.add_card(NumberedCard(14, Suit.clubs))
+
+    other_cards = []
+    other_cards.append(NumberedCard(14, Suit.diamonds))
+    other_cards.append(NumberedCard(14, Suit.spades))
+    other_cards.append(NumberedCard(5, Suit.clubs))
+
+    a = he.best_poker_hand(other_cards)
 

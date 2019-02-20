@@ -149,5 +149,3 @@ class PokerHand:
     # Two pair          3
     # Pair              2
     # High card         1
-
-
