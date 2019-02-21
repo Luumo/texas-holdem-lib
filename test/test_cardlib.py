@@ -103,5 +103,4 @@ def test_poker_hand():
     other_cards.append(NumberedCard(14, Suit.spades))
     other_cards.append(NumberedCard(5, Suit.clubs))
 
-    a = he.best_poker_hand(other_cards)
 
