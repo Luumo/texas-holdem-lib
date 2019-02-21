@@ -1,6 +1,7 @@
 from enum import Enum
 import random
 from abc import *
+from pokerhandlib import *
 
 
 class Suit(Enum):
@@ -106,20 +107,15 @@ class AceCard(PlayingCard):
 
 
 class StandardDeck:
-    # init 52 card deck
     def __init__(self):
         self.deck = []
-        # Create Numbered cards
+        # create all 52 cards
         for suit in Suit:
             for value in range(2, 11):
                 self.deck.append(NumberedCard(value, suit))
-            # Create jack cards
             self.deck.append(JackCard(suit))
-            # create queen cards
             self.deck.append(QueenCard(suit))
-            # create king cards
             self.deck.append(KingCard(suit))
-            # create ace cards
             self.deck.append(AceCard(suit))
 
     def __str__(self):
@@ -133,20 +129,17 @@ class StandardDeck:
 
 
 class Hand:
+    '''fgfh'''
     def __init__(self):
         self.cards = []
 
     def __str__(self):
         return 'Hand:' + '(' + ', '.join([str(c) for c in self.cards]) + ')'
 
-    def best_poker_hand(self, cards):
-        hand = []
+    def best_poker_hand(self, table_cards=[]):
+        return PokerHand(self.cards + table_cards)
 
-        hand.append(self.cards)
-        hand.append(cards)
-        #print('{} other {}'.format(self, ([c.get_value(), c.suit] for c in cards)))
-
-    def add_card(self, card):
+    def add_card(self, card: PlayingCard):
         self.cards.append(card)
 
     def drop_cards(self):
@@ -156,33 +149,27 @@ class Hand:
         self.cards.sort()
 
 
-# ------------ RANDOM CODE ------------------
+class PokerHand:
+    def __init__(self, cards: list):
+        self.pokertype = None
+        self.high_values = None
 
-# ---- DECK -----
-d = StandardDeck()
-print(d)
-d.shuffle_deck()
+        # list of poker hand functions
+        checks = (high_card, one_pair, two_pair, three_of_a_kind, straight, flush,
+                  full_house, four_of_a_kind, straight_flush)
 
-# ---- HAND ----
-h = Hand()
-# h.add_card(d.pop_card())
-# h.add_card(d.pop_card())
-h.add_card(QueenCard(Suit.clubs))
-h.add_card(JackCard(Suit.clubs))
-h.add_card(NumberedCard(5, Suit.clubs))
-h.add_card(NumberedCard(6, Suit.clubs))
-h.add_card(NumberedCard(6, Suit.clubs))
-print(d)
-# print('\n')
-h.sort_cards()
-print(h)
+        # Loops through best hand -> worst hand.
+        for f, pt in reversed(zip(checks, Rank)):
+            found = f(cards)
+            # if poker hand found, add high value and the pokerhand type to self
+            if found is not None:
+                self.high_values = found
+                self.pokertype = pt
+                break
 
-# ---- CMP ----
+    def __lt__(self, other):
+        pass
 
-cmp = QueenCard(Suit.clubs) < QueenCard(Suit.spades)
-print(cmp)
 
-jack = JackCard(Suit.spades)
-print(jack)
 
 

@@ -1,11 +1,25 @@
 import pytest
 from cardlib import *
-from pokerhandlib import *
 
 
-def test_jackcard_get_value():
-    card = JackCard(Suit.hearts)
-    assert card.get_value() == 11
+def test_deck():
+    d = StandardDeck()
+    print(d)
+    d.shuffle_deck()
+    print('Shuffled deck: {}:'.format(d))
+
+
+def test_pop_card_from_deck_to_hand():
+    d = StandardDeck()
+    h = Hand()
+    h.add_card(d.pop_card())
+    h.add_card(d.pop_card())
+    print('Hand with two cards from unshuffled deck: {}'.format(h))
+
+
+def test_compare_cards():
+    cmp = QueenCard(Suit.clubs) < QueenCard(Suit.spades)
+    print(cmp)
 
 
 def test_full_house():
@@ -16,7 +30,7 @@ def test_full_house():
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
-    a = PokerHand.full_house(he)
+    a = full_house(he.cards)
     print('full house: {}'.format(a))
 
 
@@ -27,7 +41,7 @@ def test_high_card():
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
-    a = PokerHand.high_card(he)
+    a = high_card(he.cards)
     print('high card: {} '.format(a))
 
 
@@ -36,7 +50,7 @@ def test_one_pair():
     he.add_card(QueenCard(Suit.clubs))
     he.add_card(QueenCard(Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
-    a = PokerHand.one_pair(he)
+    a = one_pair(he.cards)
     print('One Pair: {} '.format(a))
 
 
@@ -46,7 +60,7 @@ def test_two_pair():
     he.add_card(QueenCard(Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
-    a = PokerHand.two_pair(he)
+    a = two_pair(he.cards)
     print('Two Pair: {} '.format(a))
 
 
@@ -57,7 +71,7 @@ def test_three_of_a_kind():
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
-    a = PokerHand.three_of_a_kind(he)
+    a = three_of_a_kind(he.cards)
     print('Three of a kind: {} '.format(a))
 
 
@@ -68,7 +82,7 @@ def test_straight_flush():
     he.add_card(NumberedCard(7, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(5, Suit.clubs))
-    a = PokerHand.straight_flush(he)
+    a = straight_flush(he.cards)
     print('Straight Flush: {} '.format(a))
 
 
@@ -79,28 +93,25 @@ def test_flush():
     he.add_card(NumberedCard(7, Suit.clubs))
     he.add_card(NumberedCard(6, Suit.clubs))
     he.add_card(NumberedCard(5, Suit.clubs))
-    a = PokerHand.flush(he)
+    a = flush(he.cards)
     print('Flush: {} '.format(a))
 
 
 def test_four_of_a_kind():
-    he = Hand()
-    he.add_card(NumberedCard(14, Suit.hearts))
-    he.add_card(NumberedCard(14, Suit.clubs))
-    he.add_card(NumberedCard(14, Suit.diamonds))
-    he.add_card(NumberedCard(14, Suit.spades))
-    he.add_card(NumberedCard(5, Suit.clubs))
-    a = PokerHand.four_of_a_kind(he)
+    he = (NumberedCard(9, Suit.hearts), NumberedCard(9, Suit.hearts),
+          NumberedCard(9, Suit.hearts), NumberedCard(9, Suit.hearts))
+    a = four_of_a_kind(he)
+    print('Four of a kind: {} '.format(a))
 
 
 def test_poker_hand():
-    he = Hand()
-    he.add_card(NumberedCard(14, Suit.hearts))
-    he.add_card(NumberedCard(14, Suit.clubs))
 
-    other_cards = []
-    other_cards.append(NumberedCard(14, Suit.diamonds))
-    other_cards.append(NumberedCard(14, Suit.spades))
-    other_cards.append(NumberedCard(5, Suit.clubs))
+
+def test_poker_hand_real():
+    he = (NumberedCard(9, Suit.hearts), NumberedCard(9, Suit.hearts),
+          NumberedCard(9, Suit.hearts), NumberedCard(9, Suit.hearts))
+    ph = PokerHand(he)
+    print(ph.pokertype, ph.high_values)
+    assert(ph.pokertype == Rank.four_of_a_kind)
 
 
