@@ -1,4 +1,3 @@
-from enum import Enum
 import random
 from abc import *
 from pokerhandlib import *
@@ -129,7 +128,9 @@ class StandardDeck:
 
 
 class Hand:
-    '''fgfh'''
+    """
+    Hand function represents the players hand.
+    """
     def __init__(self):
         self.cards = []
 
@@ -150,16 +151,20 @@ class Hand:
 
 
 class PokerHand:
+    """
+    PokerHand checks what poker hand rank of the cards
+    """
     def __init__(self, cards: list):
         self.pokertype = None
         self.high_values = None
 
         # list of poker hand functions
-        checks = (high_card, one_pair, two_pair, three_of_a_kind, straight, flush,
-                  full_house, four_of_a_kind, straight_flush)
+        checks = (straight_flush,  four_of_a_kind, full_house, flush, straight,
+                  three_of_a_kind, two_pair, one_pair, high_card)
 
         # Loops through best hand -> worst hand.
-        for f, pt in reversed(zip(checks, Rank)):
+        # for f, pt in reversed(zip(checks, Rank)):
+        for f, pt in zip(checks, reversed(Rank)):
             found = f(cards)
             # if poker hand found, add high value and the pokerhand type to self
             if found is not None:
@@ -168,8 +173,4 @@ class PokerHand:
                 break
 
     def __lt__(self, other):
-        pass
-
-
-
-
+        return self.pokertype.value < other.pokertype.value

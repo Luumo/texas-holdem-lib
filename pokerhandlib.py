@@ -3,6 +3,9 @@ from enum import Enum
 
 
 class Rank(Enum):
+    """
+    Rank of poker hands, ascending order
+    """
     high_card = 1
     pair = 2
     two_pair = 3
@@ -16,6 +19,12 @@ class Rank(Enum):
 
 def high_card(cards):
     # returns the highest valued card
+    """
+    Checks for highest card in list of cards
+
+    :param cards: A list of playing cards
+    :return: The value of highest valued card
+    """
     vals = []
     for c in cards:
         vals.append(c.get_value())
@@ -24,6 +33,11 @@ def high_card(cards):
 
 
 def one_pair(cards):
+    """
+    Checks for one pair in list of cards
+    :param cards: A list of playing cards
+    :return: None if no pair is found, else the card value of the pair
+    """
     value_count = Counter()
     # finds the card ranks which are in one pair
     # only returns pairs if 1 pair. else none
@@ -31,28 +45,47 @@ def one_pair(cards):
         value_count[c.get_value()] += 1
     pairs = [v[0] for v in value_count.items() if v[1] == 2]
     if len(pairs) == 1:
-        return pairs
+        return pairs[0]
 
 
 def two_pair(cards):
+    """
+    Checks for two pairs in a list of cards
+
+    :param cards: A list of playing cards
+    :return: None if no two pair can be found, else a tuple of the values of the two card pairs
+    """
     value_count = Counter()
     for c in cards:
         value_count[c.get_value()] += 1
     pairs = [v[0] for v in value_count.items() if v[1] == 2]
     if len(pairs) == 2:
-        return pairs
+        return pairs[0], pairs[1]
 
 
 def three_of_a_kind(cards):
+    """
+    Checks for three of a kind in a list of cards.
+
+    :param cards: A list of playing cards
+    :return: None if no three of a kind is found,
+            else the card value of the threee of a kind
+    """
     value_count = Counter()
     for c in cards:
         value_count[c.get_value()] += 1
     threes = [v[0] for v in value_count.items() if v[1] == 3]
     if len(threes) == 1:
-        return threes
+        return threes[0]
 
 
 def straight(cards):
+    """
+    Checks for straight in a list of cards.
+
+    :param cards: A list of playing cards
+    :return: None if no straight was found, else the value of the highest valued card in the straight
+    """
     vals = [c.get_value() for c in cards] \
         + [(1, c.suit) for c in cards if c.get_value() == 14]  # Add the aces!
     for c in reversed(cards):    # Starting point (high card)
@@ -67,9 +100,13 @@ def straight(cards):
 
 
 def flush(cards):
-    # Doesn't care about value, so it might be a straight flush
-    # However, in the comparison of best_pokerhand(),
-    # the straight_flush will be compared before flush
+    """
+    Checks for flush in a list of cards. Doesn't care about value, only suit.
+
+
+    :param cards: A list of playing cards
+    :return: None if no flush is found, else the suit of the flush
+    """
     suits = []
     for c in cards:
         suits.append(c.suit)
@@ -103,13 +140,17 @@ def full_house(cards):
 
 
 def four_of_a_kind(cards):
+    """
+    :param cards: A list of playing cards
+    :return: None if no four of a kind is found, else the value of the four of a kind
+    """
     value_count = Counter()
     for c in cards:
         value_count[c.get_value()] += 1
         # Find the card ranks that have at least a four of a kind
     fours = [v[0] for v in value_count.items() if v[1] == 4]
     if len(fours) == 1:
-        return fours
+        return fours[0]
 
 
 def straight_flush(cards):
