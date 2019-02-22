@@ -125,6 +125,7 @@ def test_best_poker_hand():
 
     assert (best.pokertype == Rank.four_of_a_kind)
 
+
 def test_cmp_two_best_hands():
     # ---- other cards --- #
     other = [NumberedCard(2, Suit.spades), JackCard(Suit.diamonds)]
