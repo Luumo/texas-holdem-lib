@@ -13,6 +13,7 @@ class Suit(Enum):
 
     def get_unicode(self):
         """
+        Returns the unicode for card suit
         :return: printable unicode for suit
         """
 
@@ -30,7 +31,7 @@ class Suit(Enum):
 class PlayingCard(metaclass=ABCMeta):
     """ Represents playing card"""
 
-    def __init__(self, suit):
+    def __init__(self, suit: Suit):
         """
         initializes playing card with a suit
         :param suit: the suit of the playing card
@@ -56,7 +57,7 @@ class PlayingCard(metaclass=ABCMeta):
 class NumberedCard(PlayingCard):
     """ represents numbered cards"""
 
-    def __init__(self, value, suit):
+    def __init__(self, value: int, suit: Suit):
         super().__init__(suit)
         self.value = value
 
@@ -73,6 +74,9 @@ class NumberedCard(PlayingCard):
 class JackCard(PlayingCard):
     """ Represents jack card"""
 
+    def __init__(self, suit: Suit):
+        super().__init__(suit)
+
     def get_value(self):
         return 11
 
@@ -86,7 +90,7 @@ class JackCard(PlayingCard):
 class QueenCard(PlayingCard):
     """ represents queen card"""
 
-    def __init__(self, suit):
+    def __init__(self, suit: Suit):
         super().__init__(suit)
 
     def get_value(self):
@@ -102,7 +106,7 @@ class QueenCard(PlayingCard):
 class KingCard(PlayingCard):
     """Represents king card"""
 
-    def __init__(self, suit):
+    def __init__(self, suit: Suit):
         super().__init__(suit)
 
     def get_value(self):
@@ -116,9 +120,9 @@ class KingCard(PlayingCard):
 
 
 class AceCard(PlayingCard):
-    """Represents the Ace cards"""
+    """Represents the ace cards"""
 
-    def __init__(self, suit):
+    def __init__(self, suit: Suit):
         super().__init__(suit)
 
     def get_value(self):
@@ -132,7 +136,7 @@ class AceCard(PlayingCard):
 
 
 class StandardDeck:
-    """StandardDeck represents deck of cards """
+    """StandardDeck represents deck of 52 cards"""
 
     def __init__(self):
         self.deck = []
@@ -160,7 +164,7 @@ class StandardDeck:
 
 
 class Hand:
-    """ Hand represents the players hand"""
+    """ Hand represents the players hand """
 
     def __init__(self):
         self.cards = []
