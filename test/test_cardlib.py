@@ -1,6 +1,7 @@
 from cardlib import *
 import pytest
 
+
 def test_deck():
     d = StandardDeck()
     print(d)
