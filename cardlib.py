@@ -5,14 +5,18 @@ from collections import Counter
 
 
 class Suit(Enum):
-    # enumerates all 4 suits
+    """ Enumerates all card suits """
     spades = 1
     hearts = 2
     diamonds = 3
     clubs = 4
 
     def get_unicode(self):
-        # printable nicode for each suit
+        """
+        :return: printable unicode for suit
+        """
+
+        # printable unicode for each suit, remove this?
         if self == Suit.spades:
             return u"\u2660"
         elif self == Suit.hearts:
@@ -28,7 +32,7 @@ class PlayingCard(metaclass=ABCMeta):
 
     def __init__(self, suit):
         """
-        initalises playing card with a suit
+        initializes playing card with a suit
         :param suit: the suit of the playing card
         """
 
@@ -165,12 +169,12 @@ class Hand:
         return 'Hand:' + '(' + ', '.join([str(c) for c in self.cards]) + ')'
 
     def best_poker_hand(self, table_cards=[]):
-        """ Returns best poker hand from a set of table cards, and cards from hand"""
+        """ Returns best poker hand from a arbitary set of cards"""
 
         return PokerHand(self.cards + table_cards)
 
     def add_card(self, card: PlayingCard):
-        """ adds card to hand """
+        """ adds playing card to hand """
 
         self.cards.append(card)
 

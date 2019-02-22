@@ -17,7 +17,7 @@ def test_pop_card_from_deck_to_hand():
 
 
 def test_compare_cards():
-    cmp = QueenCard(Suit.clubs) < QueenCard(Suit.spades)
+    cmp = JackCard(Suit.clubs) < QueenCard(Suit.spades)
     print(cmp)
 
 
@@ -144,10 +144,3 @@ def test_cmp_two_best_hands():
         ph1.pokertype.name, ph2.pokertype.name, ph1 > ph2))
 
     assert(ph1 > ph2)
-
-
-def test_types():
-    print(type(PlayingCard))
-    print(type(AceCard))
-    print(type(Hand))
-    print(type(StandardDeck))
