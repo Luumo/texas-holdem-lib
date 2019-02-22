@@ -17,8 +17,10 @@ def test_pop_card_from_deck_to_hand():
 
 
 def test_compare_cards():
-    cmp = JackCard(Suit.clubs) < QueenCard(Suit.spades)
-    print(cmp)
+    cmp1 = JackCard(Suit.clubs) < QueenCard(Suit.spades)
+    cmp2 = JackCard(Suit.clubs) > QueenCard(Suit.spades)
+    cmp3 = JackCard(Suit.clubs) == QueenCard(Suit.spades)
+    print(cmp1, cmp2, cmp3)
 
 
 def test_full_house():
