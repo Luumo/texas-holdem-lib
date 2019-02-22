@@ -1,6 +1,5 @@
-import pytest
 from cardlib import *
-
+import pytest
 
 def test_deck():
     d = StandardDeck()
@@ -145,3 +144,10 @@ def test_cmp_two_best_hands():
         ph1.pokertype.name, ph2.pokertype.name, ph1 > ph2))
 
     assert(ph1 > ph2)
+
+
+def test_types():
+    print(type(PlayingCard))
+    print(type(AceCard))
+    print(type(Hand))
+    print(type(StandardDeck))
