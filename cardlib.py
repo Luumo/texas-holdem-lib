@@ -25,11 +25,21 @@ class Suit(Enum):
 
 class PlayingCard(metaclass=ABCMeta):
     """ Represents playing card"""
+
     def __init__(self, suit):
+        """
+        initalises playing card with a suit
+        :param suit: the suit of the playing card
+        """
+
         self.suit = suit
 
     @abstractmethod
     def get_value(self):
+        pass
+
+    @abstractmethod
+    def get_suit(self):
         pass
 
     def __lt__(self, other):
@@ -41,6 +51,7 @@ class PlayingCard(metaclass=ABCMeta):
 
 class NumberedCard(PlayingCard):
     """ represents numbered cards"""
+
     def __init__(self, value, suit):
         super().__init__(suit)
         self.value = value
@@ -57,6 +68,7 @@ class NumberedCard(PlayingCard):
 
 class JackCard(PlayingCard):
     """ Represents jack card"""
+
     def get_value(self):
         return 11
 
@@ -69,6 +81,7 @@ class JackCard(PlayingCard):
 
 class QueenCard(PlayingCard):
     """ represents queen card"""
+
     def __init__(self, suit):
         super().__init__(suit)
 
@@ -84,6 +97,7 @@ class QueenCard(PlayingCard):
 
 class KingCard(PlayingCard):
     """Represents king card"""
+
     def __init__(self, suit):
         super().__init__(suit)
 
@@ -99,6 +113,7 @@ class KingCard(PlayingCard):
 
 class AceCard(PlayingCard):
     """Represents the Ace cards"""
+
     def __init__(self, suit):
         super().__init__(suit)
 
@@ -114,6 +129,7 @@ class AceCard(PlayingCard):
 
 class StandardDeck:
     """StandardDeck represents deck of cards """
+
     def __init__(self):
         self.deck = []
         # create all 52 cards
@@ -130,15 +146,18 @@ class StandardDeck:
 
     def shuffle_deck(self):
         """ randomly shuffles the deck of cards"""
+
         random.shuffle(self.deck)
 
     def pop_card(self):
         """ Returns the card on top of the deck, and removes it from deck"""
+
         return self.deck.pop()
 
 
 class Hand:
     """ Hand represents the players hand"""
+
     def __init__(self):
         self.cards = []
 
@@ -146,15 +165,23 @@ class Hand:
         return 'Hand:' + '(' + ', '.join([str(c) for c in self.cards]) + ')'
 
     def best_poker_hand(self, table_cards=[]):
+        """ Returns best poker hand from a set of table cards, and cards from hand"""
+
         return PokerHand(self.cards + table_cards)
 
     def add_card(self, card: PlayingCard):
+        """ adds card to hand """
+
         self.cards.append(card)
 
     def drop_cards(self):
+        """ drop all cards from hand"""
+
         self.cards.clear()
 
     def sort_cards(self):
+        """ sorts cards on hand, in ascending order"""
+
         self.cards.sort()
 
 
@@ -185,6 +212,7 @@ class PokerHand:
 
 class Rank(Enum):
     """Rank of poker hands, ascending order"""
+
     high_card = 1
     pair = 2
     two_pair = 3
@@ -203,6 +231,7 @@ def high_card(cards):
     :param cards: A list of playing cards
     :return: The value of highest valued card
     """
+
     vals = []
     for c in cards:
         vals.append(c.get_value())
@@ -216,6 +245,7 @@ def one_pair(cards):
     :param cards: A list of playing cards
     :return: None if no pair is found, else the card value of the pair
     """
+
     value_count = Counter()
     # finds the card ranks which are in one pair
     # only returns pairs if 1 pair. else none
@@ -233,6 +263,7 @@ def two_pair(cards):
     :param cards: A list of playing cards
     :return: None if no two pair can be found, else a tuple of the values of the two card pairs
     """
+
     value_count = Counter()
     for c in cards:
         value_count[c.get_value()] += 1
@@ -249,6 +280,7 @@ def three_of_a_kind(cards):
     :return: None if no three of a kind is found,
             else the card value of the three of a kind
     """
+
     value_count = Counter()
     for c in cards:
         value_count[c.get_value()] += 1
@@ -264,6 +296,7 @@ def straight(cards):
     :param cards: A list of playing cards
     :return: None if no straight was found, else the value of the highest valued card in the straight
     """
+
     vals = [c.get_value() for c in cards] \
         + [(1, c.suit) for c in cards if c.get_value() == 14]  # Add the aces!
     for c in reversed(cards):    # Starting point (high card)
@@ -285,6 +318,7 @@ def flush(cards):
     :param cards: A list of playing cards
     :return: None if no flush is found, else the suit of the flush
     """
+
     suits = []
     for c in cards:
         suits.append(c.suit)
@@ -300,6 +334,7 @@ def full_house(cards):
     :param cards: A list of playing cards
     :return: None if no full house is found, else a tuple of the values of the triple and pair.
     """
+
     value_count = Counter()
     for c in cards:
         value_count[c.get_value()] += 1
@@ -322,6 +357,7 @@ def four_of_a_kind(cards):
     :param cards: A list of playing cards
     :return: None if no four of a kind is found, else the value of the four of a kind
     """
+
     value_count = Counter()
     for c in cards:
         value_count[c.get_value()] += 1
@@ -338,6 +374,7 @@ def straight_flush(cards):
     :param cards: A list of playing cards.
     :return: None if no straight flush is found, else the value of the top card.
     """
+
     vals = [(c.get_value(), c.suit) for c in cards] \
         + [(1, c.suit) for c in cards if c.get_value() == 14]  # Add the aces!
     for c in reversed(cards):    # Starting point (high card)
