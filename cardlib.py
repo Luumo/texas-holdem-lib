@@ -183,8 +183,12 @@ class Hand:
         self.cards.append(card)
 
     def drop_cards(self, card_index_list):
-        """ drop specific cards from hand, based on the card_index_list"""
-        for card_index in card_index_list:
+        """
+        drop specific cards from hand, based on the card_index_list
+        :param card_index_list: list of card indices which should be removed. MUST be in order low - > high
+        """
+        # reverse list, and reletes cards from end -> start of list
+        for card_index in reversed(card_index_list):
             self.cards.remove(self.cards[card_index])
 
     def sort_cards(self):
