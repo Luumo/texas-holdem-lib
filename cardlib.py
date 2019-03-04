@@ -182,10 +182,9 @@ class Hand:
 
         self.cards.append(card)
 
-    def drop_cards(self):
+    def drop_cards(self, i):
         """ drop all cards from hand"""
-
-        self.cards.clear()
+        del self.cards[i]
 
     def sort_cards(self):
         """ sorts cards on hand, in ascending order"""
@@ -326,12 +325,12 @@ def flush(cards):
     :param cards: A list of playing cards
     :return: None if no flush is found, else the suit of the flush
     """
-
-    suits = []
+    suit_count = Counter()
     for c in cards:
-        suits.append(c.suit)
+        suit_count[c.suit] += 1
     # Only suits matter in flush, checks if all suits are the same
-    if all(s == suits[0] for s in suits):
+    suits = [s[0] for s in suit_count.items() if s[1] >= 5]
+    if len(suits) == 1:
         return suits[0].get_unicode()
 
 
