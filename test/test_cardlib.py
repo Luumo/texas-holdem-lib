@@ -150,14 +150,6 @@ def test_cmp_two_best_hands():
     assert(ph1 > ph2)
 
 
-def test_drop_card():
-    h = Hand()
-    h.add_card(NumberedCard(9, Suit.hearts))
-    h.add_card(NumberedCard(9, Suit.clubs))
-    print(h)
-    h.drop_cards(0)
-    print(h)
-
 def test_flush_revised():
     hand = Hand()
     hand.cards = [
@@ -197,7 +189,19 @@ def test_cmp_two_best_hands_2():
         NumberedCard(5, Suit.spades)
         ]
     ph1 = h.best_poker_hand(other)
-
     ph2 = h2.best_poker_hand(other)
     print('Hand 1 rank: {}, Hand 2 rank: {}, Ph1 wins over Ph2: {}'.format(
         ph1.pokertype.name, ph2.pokertype.name, ph1 < ph2))
+    assert ph1 < ph2
+
+
+def test_drop_card():
+    h = Hand()
+    h.add_card(NumberedCard(9, Suit.hearts))
+    h.add_card(NumberedCard(8, Suit.clubs))
+    h.add_card(NumberedCard(7, Suit.clubs))
+    h.add_card(NumberedCard(6, Suit.clubs))
+    h.add_card(NumberedCard(5, Suit.clubs))
+    print(h)
+    h.drop_cards([0, 1, 2])
+    print(h)
