@@ -214,7 +214,7 @@ class PokerHand:
                 break
 
     def __lt__(self, other):
-        return self.pokertype.value < other.pokertype.value
+        return (self.pokertype.value, self.high_values) < (other.pokertype.value, other.high_values)
 
 
 class Rank(Enum):

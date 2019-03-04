@@ -171,4 +171,33 @@ def test_flush_revised():
         NumberedCard(5, Suit.clubs),
         NumberedCard(3, Suit.clubs)
     ]
+    a = hand.best_poker_hand(table_cards).high_values
+    print(a)
     assert hand.best_poker_hand(table_cards).pokertype == Rank.flush
+
+
+def test_cmp_two_best_hands_2():
+    # ---- other cards --- #
+    other = [
+        NumberedCard(5, Suit.hearts),
+        NumberedCard(5, Suit.clubs),
+        NumberedCard(3, Suit.hearts),
+        NumberedCard(3, Suit.clubs)
+    ]
+    # ---- Hand 1 ----- #
+    h = Hand()
+    h.cards = [
+        NumberedCard(3, Suit.diamonds),
+        NumberedCard(3, Suit.spades),
+        ]
+    # --- Hand 2 ---- #
+    h2 = Hand()
+    h2.cards = [
+        NumberedCard(5, Suit.diamonds),
+        NumberedCard(5, Suit.spades)
+        ]
+    ph1 = h.best_poker_hand(other)
+
+    ph2 = h2.best_poker_hand(other)
+    print('Hand 1 rank: {}, Hand 2 rank: {}, Ph1 wins over Ph2: {}'.format(
+        ph1.pokertype.name, ph2.pokertype.name, ph1 < ph2))
