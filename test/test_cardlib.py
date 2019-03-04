@@ -203,5 +203,5 @@ def test_drop_card():
     h.add_card(NumberedCard(6, Suit.clubs))
     h.add_card(NumberedCard(5, Suit.clubs))
     print(h)
-    h.drop_cards([0, 1, 2])
+    h.drop_cards([0, 1, 4])
     print(h)
